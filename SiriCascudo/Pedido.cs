@@ -1,34 +1,54 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 
-public class Pedido
+//Elemento:
+//Pedido
+
+//Tipo em C#:
+//class
+//Use para criar objetos diretamente sem obrigar herança.
+
+//Papel na Arquitetura:
+//Gerencia a coleção de itens (carrinho) e o total final
+
+//Conceito de POO:
+//Encapsulamento e Composição
+
+namespace SiriCascudo
 {
-    // Uso de Coleções (List)
-    private List<ItemCardapio> itens = new List<ItemCardapio>();
-
-    public void AdicionarItem(ItemCardapio item)
+    //atua como agregador, a mesma List armazena objetos do tipo Lanche e Bebida
+    internal class Pedido
     {
-        itens.Add(item);
-        Console.WriteLine($"--> {item.Descricao} adicionado ao pedido!");
-    }
+        public string NomeCliente { get; set; }
 
-    public decimal CalcularTotalPedido()
-    {
-        decimal total = 0;
-        foreach (var item in itens)
+        public List<ItemCardapio> Itens { get; set; } = new List<ItemCardapio>();
+
+        public void AdicionarItem(ItemCardapio item)
         {
-            total += item.CalcularPrecoFinal(); // Polimorfismo em ação!
-        }
-        return total;
-    }
+            Itens.Add(item);
 
-    public void ExibirResumoPedido()
-    {
-        Console.WriteLine("\n--- RESUMO DO PEDIDO ---");
-        foreach (var item in itens)
-        {
-            item.ExibirDetalhes();
+            Console.WriteLine($"\n {item.Descricao} adicionado ao pedido!");
         }
-        Console.WriteLine($"\nTOTAL DO PEDIDO: R$ {CalcularTotalPedido():F2}");
+
+        public double CalcularTotalPedido()
+        {
+            double total = 0;
+            
+            foreach(var item in Itens)
+            {
+                total += item.CalcularPrecoFinal(); //POLIMORFISMO
+            }
+
+            return total;
+        }
+
+        public void ExibirResumo()
+        {
+            Console.WriteLine("----- CARRINHO DE COMPRAS -----");
+            if(!string.IsNullOrEmpty(NomeCliente))
+                Console.WriteLine($"Cliente: {}");
+        }
+
     }
 }

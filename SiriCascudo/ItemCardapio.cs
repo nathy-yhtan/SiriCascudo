@@ -1,36 +1,41 @@
-﻿using System;
+﻿using SiriCascudo.Interfaces;
+using System;
+using System.Collections.Generic;
+using System.Text;
 
-public abstract class ItemCardapio : IImprimivel
+//Elemento:
+//ItemCardapio
+
+//Tipo em C#:
+//abstract class
+//Use para garantir que todas as subclasses tenham certos métodos implementados, mas também fornecer implementações padrão para outros.
+
+//Papel na Arquitetura:
+//Classe base com propriedades comuns (Código, Descrição, Preço)
+
+//Conceito de POO:
+//Herança e Abstração
+
+namespace SiriCascudo
 {
-    // Encapsulamento + Propriedades Auto-implementadas
-    public int Codigo { get; private set; }
-    public string Descricao { get; private set; }
-
-    private decimal precoBase;
-    public decimal PrecoBase
+    // A classe abstrata herda da interface ICalcularPrecoFinal
+    public abstract class ItemCardapio : ICalcularPrecoFinal //":" -> HERANÇA
     {
-        get { return precoBase; }
-        private set
+        public int Codigo { get; set; }
+        public string Descricao { get; set; }
+        public double PrecoBase { get; set; }
+
+        //CONSTRUTOR:
+        //Inicializa as PROPRIEDADES do item
+        public ItemCardapio(int codigo, string descricao, double precoBase)
         {
-            if (value < 0)
-                throw new ArgumentException("O preço base não pode ser negativo."); // Tratamento de Exceção
-            precoBase = value;
+            Codigo = codigo;
+            Descricao = descricao;
+            PrecoBase = precoBase;
         }
-    }
 
-    // Construtor
-    public ItemCardapio(int codigo, string descricao, decimal precoBase)
-    {
-        Codigo = codigo;
-        Descricao = descricao;
-        PrecoBase = precoBase;
+        // MÉTODO ABSTRATO:
+        // Deve ser implementado (sobrescrito) (ISSO É POLIMORFISMO) pelas classes filhas
+        public abstract double CalcularPrecoFinal();
     }
-
-    // Método virtual para permitir Polimorfismo
-    public virtual decimal CalcularPrecoFinal()
-    {
-        return PrecoBase;
-    }
-
-    public abstract void ExibirDetalhes();
 }

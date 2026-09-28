@@ -1,42 +1,40 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Text;
 
-public class Bebida : ItemCardapio
+//Elemento:
+//Bebida
+
+//Tipo em C#:
+//class (filha)
+//Use para criar objetos diretamente sem (não é esse caso) obrigar herança.
+
+//Papel na Arquitetura:
+//Especialização para bebidas com preços por tamanho(300ml, 500ml, 1L)
+
+//Conceito de POO:
+//Herança e Polimorfismo
+
+namespace SiriCascudo
 {
-    public string Tamanho { get; private set; } = "300ml";
-
-    public Bebida(int codigo, string descricao, decimal precoBase)
-        : base(codigo, descricao, precoBase)
-    {
-    }
-
-    public void DefinirTamanho(int opcaoTamanho)
-    {
-        switch (opcaoTamanho)
+    //OBJETO
+    public class Bebida : ItemCardapio
         {
-            case 1:
-                Tamanho = "300ml";
-                break;
-            case 2:
-                Tamanho = "500ml";
-                break;
-            case 3:
-                Tamanho = "1L";
-                break;
-            default:
-                throw new ArgumentException("Opção de tamanho inválida!");
+        //Característica própria
+        public string Tamanho { get; set; } // "300ml", "500ml" ou "1L"
+
+        public Bebida(int codigo, string descricao, double precoBase, string tamanho)
+            : base (codigo, descricao, precoBase)
+        {
+            Tamanho = tamanho;
         }
-    }
 
-    // Polimorfismo: Preço ajustado de acordo com o tamanho selecionado
-    public override decimal CalcularPrecoFinal()
-    {
-        if (Tamanho == "500ml") return PrecoBase + 2.00m;
-        if (Tamanho == "1L") return PrecoBase + 5.00m;
-        return PrecoBase; // 300ml
-    }
-
-    public override void ExibirDetalhes()
-    {
-        Console.WriteLine($"[Bebida {Codigo}] {Descricao} ({Tamanho}) - Preço Final: R$ {CalcularPrecoFinal():F2}");
+        // Sobrescreve (override) o cálculo aplicando taxas dependendo do tamanho
+        public override double CalcularPrecoFinal()
+        {
+            if (Tamanho == "500ml") return PrecoBase + 2.00;
+            if (Tamanho == "1L") return PrecoBase + 4.00;
+            return PrecoBase; //300ml
+        }
     }
 }

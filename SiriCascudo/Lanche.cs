@@ -1,38 +1,41 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 
-public class Lanche : ItemCardapio
+//Elemento:
+//Lanche
+
+//Tipo em C#:
+//class (filha)
+//Use para criar objetos diretamente sem (não é esse caso) obrigar herança.
+
+//Papel na Arquitetura:
+//Especialização para comida com lista de ingredientes extras
+
+//Conceito de POO:
+//Herança e Polimorfismo
+
+namespace SiriCascudo
 {
-    // Coleção/Lista de ingredientes
-    public List<string> IngredientesExtras { get; private set; }
-    private const decimal PRECO_INGREDIENTE_EXTRA = 2.50m;
-
-    // Construtor usando base()
-    public Lanche(int codigo, string descricao, decimal precoBase)
-        : base(codigo, descricao, precoBase)
+    //OBJETO
+    //Como caracterizamos as class são exemplo de ENCAPSULAMENTO
+    public class Lanche : ItemCardapio
     {
-        IngredientesExtras = new List<string>();
-    }
+        //Lista de ingredientes extras escolhidos pelo cliente
+        //get set também é exemplo de ENCAPSULAMENTO
+        //List<> é um exemplo de coleção, é dinâmica que permite adicionar ou remover elementos
+        public List<string> IngredientesExtras { get; set; } = new List<string>();
 
-    public void AdicionarIngrediente(string ingrediente)
-    {
-        IngredientesExtras.Add(ingrediente);
-    }
+        // Construtor repassa os dados base para o pai através da palavra-chave 'base'
+        public Lanche(int codigo, string descricao, double precoBase)
+            : base(codigo, descricao, precoBase) { }
 
-    // Polimorfismo: sobrescrevendo o método CalcularPrecoFinal
-    public override decimal CalcularPrecoFinal()
-    {
-        return PrecoBase + (IngredientesExtras.Count * PRECO_INGREDIENTE_EXTRA);
-    }
-
-    // Polimorfismo / Interface
-    public override void ExibirDetalhes()
-    {
-        Console.WriteLine($"[Lanche {Codigo}] {Descricao} - Preço Base: R$ {PrecoBase:F2}");
-        if (IngredientesExtras.Count > 0)
+        // Sobrescreve (override) o cálculo somando R$ 2,00 por ingrediente extra
+        public override double CalcularPrecoFinal()
         {
-            Console.WriteLine($"   Extras adicionados: {string.Join(", ", IngredientesExtras)}");
+            double total = PrecoBase;
+            total += IngredientesExtras.Count * 2.00;
+            return total;
         }
-        Console.WriteLine($"   Preço Total: R$ {CalcularPrecoFinal():F2}");
     }
 }
