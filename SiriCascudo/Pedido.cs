@@ -31,11 +31,12 @@ namespace SiriCascudo
             Console.WriteLine($"\n {item.Descricao} adicionado ao pedido!");
         }
 
+
         public double CalcularTotalPedido()
         {
             double total = 0;
-            
-            foreach(var item in Itens)
+
+            foreach (var item in Itens)
             {
                 total += item.CalcularPrecoFinal(); //POLIMORFISMO
             }
@@ -43,12 +44,27 @@ namespace SiriCascudo
             return total;
         }
 
+
         public void ExibirResumo()
         {
             Console.WriteLine("----- CARRINHO DE COMPRAS -----");
-            if(!string.IsNullOrEmpty(NomeCliente))
-                Console.WriteLine($"Cliente: {}");
-        }
+            if (!string.IsNullOrEmpty(NomeCliente))
+                Console.WriteLine($"Cliente: {NomeCliente}");
 
+
+            if (Itens.Count == 0)
+            {
+                Console.WriteLine("Carrinho vazio.");
+            }
+            else
+            {
+                foreach(var item in Itens)
+                    Console.WriteLine($"Nome: {item.Descricao} | Valor: R${item.CalcularPrecoFinal():F2}"); //:F2 é para mostrar duas casa após a vírgula
+                Console.WriteLine($"\n Subtotal: R${CalcularTotalPedido():F2}");
+            }
+
+
+            Console.WriteLine("-------------------------");
+        }
     }
 }
